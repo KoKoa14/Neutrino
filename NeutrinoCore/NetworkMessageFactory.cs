@@ -34,7 +34,11 @@ namespace Neutrino.Core
 			while (overallOffset < length)
 			{
 				int offset = 1;
-				var result = messages[buffer[overallOffset]];
+				var result = messages[buffer[0]];
+				if (messages.ContainsKey(buffer[overallOffset]))
+				{
+					result = messages[buffer[overallOffset]];
+				}
 				if (result.IsGuaranteed)
 				{
 					result.SequenceNumber = (ushort)((buffer[overallOffset + 1]) + (buffer[overallOffset + 2] << 8));
