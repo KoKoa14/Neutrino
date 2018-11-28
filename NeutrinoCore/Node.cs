@@ -171,9 +171,15 @@ namespace Neutrino.Core
 
 				// TBD: When tests are complete, test whether we need to reallocate here?
 				receivedEndPoint = new IPEndPoint(IPAddress.Any, 0);
-				IAsyncResult repeatAsyncResult = serverSocket.BeginReceiveFrom(receiveBuffer, 0, NeutrinoConfig.MaxMessageSize, SocketFlags.None, ref receivedEndPoint, new AsyncCallback(HandleMessageReceived), null);
-				if (repeatAsyncResult.CompletedSynchronously)
-					HandleMessageReceived(repeatAsyncResult);
+				try
+				{
+					IAsyncResult repeatAsyncResult = serverSocket.BeginReceiveFrom(receiveBuffer, 0, NeutrinoConfig.MaxMessageSize, SocketFlags.None, ref receivedEndPoint, new AsyncCallback(HandleMessageReceived), null);
+					if (repeatAsyncResult.CompletedSynchronously)
+						HandleMessageReceived(repeatAsyncResult);
+				}
+				catch
+				{
+				}
 			}
 		}
 
